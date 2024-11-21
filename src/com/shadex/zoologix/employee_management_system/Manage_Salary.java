@@ -15,6 +15,7 @@ public class Manage_Salary extends javax.swing.JPanel {
      */
     public Manage_Salary() {
         initComponents();
+        
     }
 
     /**
