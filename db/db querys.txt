@@ -1,0 +1,72 @@
+1. province tabel query
+
+INSERT INTO province (province_id, privince_name)
+VALUES (1, 'Western'),
+       (2, 'Central'),
+       (3, 'Southern'),
+       (4, 'Northern'),
+       (5, 'Eastern'),
+       (6, 'North Western'),
+       (7, 'North Central'),
+       (8, 'Uva'),
+       (9, 'Sabaragamuwa');
+
+
+2. Attendace type tabel query
+
+INSERT INTO attendace_type (attendance_type_id, attendace_type_name)
+VALUES (1, 'Full Day'),
+       (2, 'Half Day'),
+       (3, 'Leave');
+
+
+3. city tabel query
+
+INSERT INTO city (city_id, city_name)
+VALUES 
+    -- Western Province
+    (1, 'Colombo'),
+    (2, 'Gampaha'),
+    (3, 'Negombo'),
+    (4, 'Dehiwala'),
+    (5, 'Moratuwa'),
+    (6, 'Kalutara'),
+    (7, 'Wattala'),
+    (8, 'Maharagama'),
+    (9, 'Kandy'),
+    (10, 'Matale'),
+    (11, 'Nuwara Eliya'),
+    (12, 'Gampola'),
+    (13, 'Hatton'),
+    (14, 'Galle'),
+    (15, 'Matara'),
+    (16, 'Tangalle'),
+    (17, 'Hambantota'),
+    (18, 'Weligama'),
+    (19, 'Jaffna'),
+    (20, 'Kilinochchi'),
+    (21, 'Mannar'),
+    (22, 'Vavuniya'),
+    (23, 'Point Pedro'),
+    (24, 'Trincomalee'),
+    (25, 'Batticaloa'),
+    (26, 'Kalmunai'),
+    (27, 'Ampara'),
+    (28, 'Eravur'),
+    (29, 'Kurunegala'),
+    (30, 'Puttalam'),
+    (31, 'Kuliyapitiya'),
+    (32, 'Chilaw'),
+    (33, 'Anuradhapura'),
+    (34, 'Polonnaruwa'),
+    (35, 'Medawachchiya'),
+    (36, 'Badulla'),
+    (37, 'Bandarawela'),
+    (38, 'Haputale'),
+    (39, 'Monaragala'),
+    (40, 'Ratnapura'),
+    (41, 'Embilipitiya'),
+    (42, 'Balangoda'),
+    (43, 'Kegalle');
+
+
