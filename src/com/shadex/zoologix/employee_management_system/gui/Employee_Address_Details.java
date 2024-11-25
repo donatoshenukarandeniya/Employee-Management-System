@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.shadex.zoologix.employee_management_system;
+package com.shadex.zoologix.employee_management_system.gui;
 
 /**
  *
@@ -51,7 +51,6 @@ public class Employee_Address_Details extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(700, 400));
         setResizable(false);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(700, 40));

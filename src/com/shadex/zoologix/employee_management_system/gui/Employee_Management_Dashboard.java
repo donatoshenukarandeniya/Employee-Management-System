@@ -1,4 +1,4 @@
-package com.shadex.zoologix.employee_management_system;
+package com.shadex.zoologix.employee_management_system.gui;
 
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
