@@ -5,18 +5,24 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 public class Employee_Rejistration_View extends javax.swing.JPanel {
 
+    private static HashMap<String, String> departmentMap = new HashMap<>();
 
     public Employee_Rejistration_View() {
         initComponents();
         loadEmployee();
+        loadDepartment();
+        loadUserRole();
+        loadWorkingShadule();
     }
-    
-    private void loadEmployee(){
+
+    private void loadEmployee() {
         try {
             ResultSet resultset = MySql.executeSearch("SELECT * FROM `user` INNER JOIN `department` ON `department`.`department_id` = `user`.`department_department_id` "
                     + "INNER JOIN `workshadule` ON `workshadule`.`workshadule_id` = `user`.`workshadule_workshadule_id` INNER JOIN `user_role` ON `user_role`.`user_role_id` = `user`.`user_role_user_role_id` ");
@@ -42,6 +48,65 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         }
     }
 
+    private void loadDepartment() {
+        try {
+            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `department`");
+
+            Vector vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("department_name"));
+                departmentMap.put(resultSet.getString("department_name"), resultSet.getString("department_id"));
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox1.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadUserRole() {
+        try {
+            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `user_role`");
+
+            Vector vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("user_role_name"));
+                departmentMap.put(resultSet.getString("user_role_name"), resultSet.getString("user_role_id"));
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox2.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void loadWorkingShadule() {
+        try {
+            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `workshadule`");
+
+            Vector vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("workshadule_time_name"));
+                departmentMap.put(resultSet.getString("workshadule_time_name"), resultSet.getString("workshadule_id"));
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox3.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -305,45 +370,44 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         String department = String.valueOf(jComboBox1.getSelectedItem());
         String user_role = String.valueOf(jComboBox2.getSelectedItem());
         String working_shadule = String.valueOf(jComboBox3.getSelectedItem());
-        
-        if(emp_id.isEmpty()){
-            JOptionPane.showMessageDialog(this,"Please Enter Employee ID","Warning",JOptionPane.WARNING_MESSAGE);
-        }else if(fname.isEmpty()){
-            JOptionPane.showMessageDialog(this,"Please Enter Employee First Name","Warning",JOptionPane.WARNING_MESSAGE);
-        }else if(lname.isEmpty()){
-            JOptionPane.showMessageDialog(this,"Please Enter Employee Last Name","Warning",JOptionPane.WARNING_MESSAGE);
-        }else if(email.isEmpty()){
-             JOptionPane.showMessageDialog(this,"Please Enter Employee Email","Warning",JOptionPane.WARNING_MESSAGE);
-        }else if(!email.matches("^(?=.{1,64}@)[\\p{L}0-9_-]+(\\.[\\p{L}0-9_-]+)*@[^-][\\p{L}0-9-]+(\\.[\\p{L}0-9-]+)*(\\.[\\p{L}]{2,})$")){
-            JOptionPane.showMessageDialog(this,"Please Enter Employee Valid Email","Warning",JOptionPane.WARNING_MESSAGE);
-        }else if(nic.isEmpty()){
-            JOptionPane.showMessageDialog(this,"Please Enter Employee NIC","Warning",JOptionPane.WARNING_MESSAGE);
-        }else if(department.equals("Select")){
-            JOptionPane.showMessageDialog(this,"Please Select Employee Department","Warning",JOptionPane.WARNING_MESSAGE);
-        }else if(user_role.equals("Select")){
-            JOptionPane.showMessageDialog(this,"Please Select User Role","Warning",JOptionPane.WARNING_MESSAGE);
-        }else if(working_shadule.equals("Select")){
-            JOptionPane.showMessageDialog(this,"Please Select Employee User Role","Warning",JOptionPane.WARNING_MESSAGE);
-        }else{
-            try{
-                ResultSet resultSet = MySql.executeSearch("SELECT * FROM `user` WHERE `user_id` = '"+emp_id+"' ");
-                
-                if(resultSet.next()){
-                     JOptionPane.showMessageDialog(this,"This Employee Already Registed","Warning",JOptionPane.WARNING_MESSAGE);
-                }else{
-                    
+
+        if (emp_id.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Employee ID", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (fname.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Employee First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (lname.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Employee Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Employee Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!email.matches("^(?=.{1,64}@)[\\p{L}0-9_-]+(\\.[\\p{L}0-9_-]+)*@[^-][\\p{L}0-9-]+(\\.[\\p{L}0-9-]+)*(\\.[\\p{L}]{2,})$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Employee Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Employee NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (department.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Employee Department", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (user_role.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select User Role", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (working_shadule.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Employee User Role", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                ResultSet resultSet = MySql.executeSearch("SELECT * FROM `user` WHERE `user_id` = '" + emp_id + "' ");
+
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "This Employee Already Registed", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+
                     Date date = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
-                    
+
                     MySql.executeIUD("INSERT INTO `user` (`user_id`,`first_name`,`last_name`,`email`,`nic`,`phone_number`,`department_department_id`,"
                             + "`workshadule_workshadule_id`,`user_role_user_role_id`,`register_date`) "
-                            + "VALUES ('"+emp_id+"','"+fname+"','"+lname+"','"+email+"','"+nic+"','"+mobile+"','"+nic+"','"+department+"',"
-                            + "'"+working_shadule+"','"+user_role+"','"+sdf.format(date)+"') ");
-                    
-                    
+                            + "VALUES ('" + emp_id + "','" + fname + "','" + lname + "','" + email + "','" + nic + "','" + mobile + "','" + nic + "','" + department + "',"
+                            + "'" + working_shadule + "','" + user_role + "','" + sdf.format(date) + "') ");
+
                 }
-                
-            }catch(Exception e){
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
