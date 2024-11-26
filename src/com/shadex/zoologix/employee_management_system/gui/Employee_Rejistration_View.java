@@ -13,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
 public class Employee_Rejistration_View extends javax.swing.JPanel {
 
     private static HashMap<String, String> departmentMap = new HashMap<>();
+    private static HashMap<String, String> userRoleMap = new HashMap<>();
+    private static HashMap<String, String> workShaduleMap = new HashMap<>();
 
     public Employee_Rejistration_View() {
         initComponents();
@@ -32,9 +34,12 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
 
             while (resultset.next()) {
                 Vector<String> vector = new Vector<>();
+                vector.add(resultset.getString("user_id"));
                 vector.add(resultset.getString("first_name"));
                 vector.add(resultset.getString("last_name"));
                 vector.add(resultset.getString("phone_number"));
+                vector.add(resultset.getString("email"));
+                vector.add(resultset.getString("password"));
                 vector.add(resultset.getString("nic"));
                 vector.add(resultset.getString("register_date"));
                 vector.add(resultset.getString("department.department_name"));
@@ -77,7 +82,7 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("user_role_name"));
-                departmentMap.put(resultSet.getString("user_role_name"), resultSet.getString("user_role_id"));
+                userRoleMap.put(resultSet.getString("user_role_name"), resultSet.getString("user_role_id"));
             }
 
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
@@ -87,7 +92,7 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     private void loadWorkingShadule() {
         try {
             ResultSet resultSet = MySql.executeSearch("SELECT * FROM `workshadule`");
@@ -97,7 +102,7 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("workshadule_time_name"));
-                departmentMap.put(resultSet.getString("workshadule_time_name"), resultSet.getString("workshadule_id"));
+                workShaduleMap.put(resultSet.getString("workshadule_time_name"), resultSet.getString("workshadule_id"));
             }
 
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
@@ -106,6 +111,19 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void reset() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jPasswordField1.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jComboBox2.setSelectedIndex(0);
+        jComboBox3.setSelectedIndex(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -133,6 +151,8 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -158,7 +178,7 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(883, Short.MAX_VALUE))
+                .addContainerGap(888, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,23 +249,28 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("Employee Id :");
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Password :");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel12))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel12)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, 264, Short.MAX_VALUE)
@@ -256,7 +281,8 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
                     .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField6))
+                    .addComponent(jTextField6)
+                    .addComponent(jPasswordField1))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -278,7 +304,11 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -298,7 +328,7 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         add(jPanel5, java.awt.BorderLayout.LINE_START);
@@ -339,11 +369,11 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Frist Name", "Last Name", "Contact No", "NIC", "Hire Date", "Department", "User Role", "Working Shadule"
+                "Frist Name", "Last Name", "Contact No", "Email", "Password", "NIC", "Hire Date", "Department", "User Role", "Working Shadule"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -365,6 +395,7 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         String fname = jTextField1.getText();
         String lname = jTextField2.getText();
         String email = jTextField3.getText();
+        String password = String.valueOf(jPasswordField1.getPassword());
         String mobile = jTextField4.getText();
         String nic = jTextField5.getText();
         String department = String.valueOf(jComboBox1.getSelectedItem());
@@ -389,6 +420,12 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please Select User Role", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (working_shadule.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Please Select Employee User Role", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Password", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
                 ResultSet resultSet = MySql.executeSearch("SELECT * FROM `user` WHERE `user_id` = '" + emp_id + "' ");
@@ -400,11 +437,13 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
                     Date date = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 
-                    MySql.executeIUD("INSERT INTO `user` (`user_id`,`first_name`,`last_name`,`email`,`nic`,`phone_number`,`department_department_id`,"
-                            + "`workshadule_workshadule_id`,`user_role_user_role_id`,`register_date`) "
-                            + "VALUES ('" + emp_id + "','" + fname + "','" + lname + "','" + email + "','" + nic + "','" + mobile + "','" + nic + "','" + department + "',"
-                            + "'" + working_shadule + "','" + user_role + "','" + sdf.format(date) + "') ");
+                    MySql.executeIUD("INSERT INTO `user` (`user_id`,`first_name`,`last_name`,`email`,`password`,`nic`,`register_date`,`phone_number`,"
+                            + "`department_department_id`,`workshadule_workshadule_id`,`user_role_user_role_id`) "
+                            + "VALUES ('" + emp_id + "','" + fname + "','" + lname + "','" + email + "','" + password + "','" + nic + "','" + sdf.format(date) + "','" + mobile + "','" + departmentMap.get(department) + "',"
+                            + "'" + workShaduleMap.get(working_shadule) + "','" + userRoleMap.get(user_role) + "') ");
 
+                    loadEmployee();
+                    reset();
                 }
 
             } catch (Exception e) {
@@ -430,11 +469,13 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
