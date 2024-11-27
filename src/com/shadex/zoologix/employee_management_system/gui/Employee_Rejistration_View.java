@@ -347,6 +347,11 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
 
         jButton3.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jButton3.setText("Update Employee Details");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton3);
 
         jButton4.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
@@ -369,15 +374,21 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Frist Name", "Last Name", "Contact No", "Email", "Password", "NIC", "Hire Date", "Department", "User Role", "Working Shadule"
+                "Employee Id", "Frist Name", "Last Name", "Contact No", "Email", "Password", "NIC", "Hire Date", "Department", "User Role", "Working Shadule"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -451,6 +462,108 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+
+        String emp_id = String.valueOf(jTable1.getValueAt(row, 0));
+        jTextField6.setText(emp_id);
+        jTextField6.setEnabled(false);
+
+        String fname = String.valueOf(jTable1.getValueAt(row, 1));
+        jTextField1.setText(fname);
+
+        String lname = String.valueOf(jTable1.getValueAt(row, 2));
+        jTextField2.setText(lname);
+
+        String mobile = String.valueOf(jTable1.getValueAt(row, 3));
+        jTextField4.setText(mobile);
+
+        String email = String.valueOf(jTable1.getValueAt(row, 4));
+        jTextField3.setText(email);
+        jTextField3.setEnabled(false);
+
+        String password = String.valueOf(jTable1.getValueAt(row, 5));
+        jPasswordField1.setText(password);
+
+        String nic = String.valueOf(jTable1.getValueAt(row, 6));
+        jTextField5.setText(nic);
+        jTextField5.setEnabled(false);
+
+        String department = String.valueOf(jTable1.getValueAt(row, 8));
+        jComboBox1.setSelectedItem(department);
+
+        String userRole = String.valueOf(jTable1.getValueAt(row, 9));
+        jComboBox2.setSelectedItem(userRole);
+
+        String workingShadule = String.valueOf(jTable1.getValueAt(row, 10));
+        jComboBox3.setSelectedItem(workingShadule);
+
+        jButton1.setEnabled(false);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String emp_id = jTextField6.getText();
+        String fname = jTextField1.getText();
+        String lname = jTextField2.getText();
+        String email = jTextField3.getText();
+        String password = String.valueOf(jPasswordField1.getPassword());
+        String mobile = jTextField4.getText();
+        String nic = jTextField5.getText();
+        String department = String.valueOf(jComboBox1.getSelectedItem());
+        String user_role = String.valueOf(jComboBox2.getSelectedItem());
+        String working_shadule = String.valueOf(jComboBox3.getSelectedItem());
+
+        if (fname.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Employee First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (lname.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Employee Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (department.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Employee Department", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (user_role.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select User Role", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (working_shadule.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Employee User Role", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Password", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                ResultSet resultSet = MySql.executeSearch("SELECT * FROM `user` WHERE `nic` = '" + nic + "' OR `email` = '" + email + "' ");
+                boolean canUpdate = false;
+
+                if (resultSet.next()) {
+
+                    if (!resultSet.getString("email").equals(email)) {
+                        JOptionPane.showMessageDialog(this, "This Employee Mobile Number and NIC already Registed", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                    } else {
+                        canUpdate = true;
+                    }
+
+                } else {
+                    canUpdate = true;
+                }
+
+                if (canUpdate) {
+                    MySql.executeIUD("UPDATE `user` SET `password` = '" + password + "' , `first_name` = '" + fname + "' , "
+                            + "`last_name` = '" + lname + "' , `phone_number` = '" + mobile + "' , `user_role_user_role_id` = '" + userRoleMap.get(user_role) + "' , "
+                            + "`workshadule_workshadule_id` = '" + workShaduleMap.get(working_shadule) + "' , `department_department_id` = '" + departmentMap.get(department) + "' "
+                            + "WHERE `email` = '" + email + "' OR `nic` = '" + nic + "' ");
+
+                    loadEmployee();
+                    reset();
+                }
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
