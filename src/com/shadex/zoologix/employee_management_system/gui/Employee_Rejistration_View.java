@@ -124,6 +124,11 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
         jComboBox3.setSelectedIndex(0);
+        jTable1.clearSelection();
+        jTextField6.setEditable(true);
+        jTextField3.setEnabled(true);
+        jTextField5.setEnabled(true);
+        jButton1.setEnabled(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -156,7 +161,6 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -354,15 +358,6 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         });
         jPanel2.add(jButton3);
 
-        jButton4.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
-        jButton4.setText("Add Employee Address");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton4);
-
         jButton2.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jButton2.setText("Get Employeers Report");
         jPanel2.add(jButton2);
@@ -395,11 +390,6 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Employee_Address_Details ead = new Employee_Address_Details();
-        ead.setVisible(true);
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String emp_id = jTextField6.getText();
@@ -500,6 +490,11 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         jComboBox3.setSelectedItem(workingShadule);
 
         jButton1.setEnabled(false);
+
+        if (evt.getClickCount() == 2) {
+            Employee_Address_Details address_view = new Employee_Address_Details(email);
+            address_view.setVisible(true);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -570,7 +565,6 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
