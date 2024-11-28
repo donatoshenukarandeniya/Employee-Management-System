@@ -125,7 +125,7 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         jComboBox2.setSelectedIndex(0);
         jComboBox3.setSelectedIndex(0);
         jTable1.clearSelection();
-        jTextField6.setEditable(true);
+        jTextField6.setEnabled(true);
         jTextField3.setEnabled(true);
         jTextField5.setEnabled(true);
         jButton1.setEnabled(true);
@@ -162,6 +162,7 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -362,6 +363,15 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         jButton2.setText("Get Employeers Report");
         jPanel2.add(jButton2);
 
+        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton4.setText("Clear All");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton4);
+
         add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -492,7 +502,7 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         jButton1.setEnabled(false);
 
         if (evt.getClickCount() == 2) {
-            Employee_Address_Details address_view = new Employee_Address_Details(email);
+            Employee_Address_Details address_view = new Employee_Address_Details(emp_id);
             address_view.setVisible(true);
         }
     }//GEN-LAST:event_jTable1MouseClicked
@@ -560,11 +570,16 @@ public class Employee_Rejistration_View extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        reset();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
