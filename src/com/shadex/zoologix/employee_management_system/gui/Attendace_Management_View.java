@@ -12,82 +12,109 @@ import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Attendace_Management_View extends javax.swing.JPanel {
 
-    HashMap<String,String> employeeMap = new HashMap<>();
-    HashMap<String,String> attendaceStatesMap = new HashMap<>();
-    HashMap<String,String> attendaceTypeMap = new HashMap<>();
-    
+    HashMap<String, String> employeeMap = new HashMap<>();
+    HashMap<String, String> attendaceStatesMap = new HashMap<>();
+    HashMap<String, String> attendaceTypeMap = new HashMap<>();
+
     public Attendace_Management_View() {
         initComponents();
         loadEmployee();
         attendaceState();
         attendaceType();
+        loadAttendace();
     }
-    
-    private void loadEmployee(){
-        try{
-            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `user` "
-                    + "INNER JOIN `user_role` ON `user_role`.`user_role_id` = `user`.`user_role_user_role_id` ");
-            
-            Vector<String> vector = new Vector();
-            vector.add("Select");
-            
-            while(resultSet.next()){
-               vector.add(resultSet.getString("user_id"));
-               employeeMap.put(resultSet.getString("user_id"), resultSet.getString("user_role.user_role_name"));
+
+    private void loadAttendace() {
+        try {
+            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `attendace` "
+            + "INNER JOIN `attendace_state` ON `attendace_state`.`attendance_state_id` = `attendace`.`attendace_state_attendance_state_id` "
+            + "INNER JOIN `attendace_type` ON `attendace_type`.`attendance_type_id` = `attendace`.`attendace_type_attendance_type_id` ");
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            while (resultSet.next()) {
+
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("date"));
+                vector.add(resultSet.getString("user_user_id"));
+                vector.add(resultSet.getString("attendace_state.attendace_state_name"));
+                vector.add(resultSet.getString("attendace_type.attendace_type_name"));
+
+                model.addRow(vector);
+
             }
-            
-            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-            jComboBox1.setModel(model);
-            
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    
-    private void attendaceState(){
-        try{
-            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `attendace_state`");
-            
-            Vector<String> vector = new Vector();
-            vector.add("Select");
-            
-            while(resultSet.next()){
-               vector.add(resultSet.getString("attendace_state_name"));  
-               attendaceStatesMap.put(resultSet.getString("attendace_state_name"), resultSet.getString("attendance_state_id"));
-            }
-            
-            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-            jComboBox2.setModel(model);
-            
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    
-    private void attendaceType(){
-        try{
-            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `attendace_type`");
-            
-            Vector<String> vector = new Vector();
-            vector.add("Select");
-            
-            while(resultSet.next()){
-               vector.add(resultSet.getString("attendace_type_name"));
-               attendaceTypeMap.put(resultSet.getString("attendace_type_name"), resultSet.getString("attendance_type_id"));
-            }
-            
-            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-            jComboBox3.setModel(model);
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    
+    private void loadEmployee() {
+        try {
+            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `user` "
+                    + "INNER JOIN `user_role` ON `user_role`.`user_role_id` = `user`.`user_role_user_role_id` ");
+
+            Vector<String> vector = new Vector();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("user_id"));
+                employeeMap.put(resultSet.getString("user_id"), resultSet.getString("user_role.user_role_name"));
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox1.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void attendaceState() {
+        try {
+            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `attendace_state`");
+
+            Vector<String> vector = new Vector();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("attendace_state_name"));
+                attendaceStatesMap.put(resultSet.getString("attendace_state_name"), resultSet.getString("attendance_state_id"));
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox2.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void attendaceType() {
+        try {
+            ResultSet resultSet = MySql.executeSearch("SELECT * FROM `attendace_type`");
+
+            Vector<String> vector = new Vector();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("attendace_type_name"));
+                attendaceTypeMap.put(resultSet.getString("attendace_type_name"), resultSet.getString("attendance_type_id"));
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox3.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -259,11 +286,11 @@ public class Attendace_Management_View extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Date", "Employee", " Attendace State", "Attendace Type", "User Role"
+                "Date", "Employee", " Attendace State", "Attendace Type"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -279,53 +306,53 @@ public class Attendace_Management_View extends javax.swing.JPanel {
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         String userRole_name = String.valueOf(jComboBox1.getSelectedItem());
-        jLabel7.setText(employeeMap.get(userRole_name)); 
+        jLabel7.setText(employeeMap.get(userRole_name));
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Date date = jDateChooser1.getDate();
-    if (date == null) {
-        JOptionPane.showMessageDialog(this, "Please Select Date", "Warning", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    String formattedDate = formatter.format(date);
-    
-    String employee = String.valueOf(jComboBox1.getSelectedItem());
-    String attendanceState = String.valueOf(jComboBox2.getSelectedItem());
-    String attendanceType = String.valueOf(jComboBox3.getSelectedItem());
-    
-    if (employee.equals("Select")) {
-        JOptionPane.showMessageDialog(this, "Please Select Employee", "Warning", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    if (attendanceState.equals("Select")) {
-        JOptionPane.showMessageDialog(this, "Please Select Attendance States", "Warning", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    if (attendanceType.equals("Select")) {
-        JOptionPane.showMessageDialog(this, "Please Select Attendance Type", "Warning", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    try {
-        ResultSet resultSet = MySql.executeSearch("SELECT * FROM attendace WHERE date = '" + formattedDate + "' AND user_user_id = '" + employee + "' ");
-        
-        if (resultSet.next()) {
-            JOptionPane.showMessageDialog(this, "Already Attendance Marked", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
-            MySql.executeIUD("INSERT INTO attendace (date, attendace_type_attendance_type_id, attendace_state_attendance_state_id, user_user_id) "
-                    + "VALUES ('" + formattedDate + "', "
-                    + "'" + attendaceTypeMap.get(attendanceType) + "', '" + attendaceStatesMap.get(attendanceState) + "', '" + employee + "')");
-            
-            JOptionPane.showMessageDialog(this, "Attendance Marked Successfully", "INFO", JOptionPane.INFORMATION_MESSAGE);
-            reset();
-            
+        if (date == null) {
+            JOptionPane.showMessageDialog(this, "Please Select Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = formatter.format(date);
+
+        String employee = String.valueOf(jComboBox1.getSelectedItem());
+        String attendanceState = String.valueOf(jComboBox2.getSelectedItem());
+        String attendanceType = String.valueOf(jComboBox3.getSelectedItem());
+
+        if (employee.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Employee", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (attendanceState.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Attendance States", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (attendanceType.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Attendance Type", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            ResultSet resultSet = MySql.executeSearch("SELECT * FROM attendace WHERE date = '" + formattedDate + "' AND user_user_id = '" + employee + "' ");
+
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(this, "Already Attendance Marked", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                MySql.executeIUD("INSERT INTO attendace (date, attendace_type_attendance_type_id, attendace_state_attendance_state_id, user_user_id) "
+                        + "VALUES ('" + formattedDate + "', "
+                        + "'" + attendaceTypeMap.get(attendanceType) + "', '" + attendaceStatesMap.get(attendanceState) + "', '" + employee + "')");
+
+                JOptionPane.showMessageDialog(this, "Attendance Marked Successfully", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                reset();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -333,7 +360,7 @@ public class Attendace_Management_View extends javax.swing.JPanel {
         reset();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void reset(){
+    private void reset() {
         jDateChooser1.setDate(null);
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
