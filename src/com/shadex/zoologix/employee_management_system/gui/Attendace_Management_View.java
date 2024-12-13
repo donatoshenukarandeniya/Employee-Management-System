@@ -31,8 +31,8 @@ public class Attendace_Management_View extends javax.swing.JPanel {
     private void loadAttendace() {
         try {
             ResultSet resultSet = MySql.executeSearch("SELECT * FROM `attendace` "
-            + "INNER JOIN `attendace_state` ON `attendace_state`.`attendance_state_id` = `attendace`.`attendace_state_attendance_state_id` "
-            + "INNER JOIN `attendace_type` ON `attendace_type`.`attendance_type_id` = `attendace`.`attendace_type_attendance_type_id` ");
+                    + "INNER JOIN `attendace_state` ON `attendace_state`.`attendance_state_id` = `attendace`.`attendace_state_attendance_state_id` "
+                    + "INNER JOIN `attendace_type` ON `attendace_type`.`attendance_type_id` = `attendace`.`attendace_type_attendance_type_id` ");
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
