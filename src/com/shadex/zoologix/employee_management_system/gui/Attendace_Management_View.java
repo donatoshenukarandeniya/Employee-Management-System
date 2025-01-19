@@ -347,6 +347,7 @@ public class Attendace_Management_View extends javax.swing.JPanel {
                         + "'" + attendaceTypeMap.get(attendanceType) + "', '" + attendaceStatesMap.get(attendanceState) + "', '" + employee + "')");
 
                 JOptionPane.showMessageDialog(this, "Attendance Marked Successfully", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                loadAttendace();
                 reset();
 
             }
